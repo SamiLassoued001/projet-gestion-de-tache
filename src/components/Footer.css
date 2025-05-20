@@ -1,0 +1,15 @@
+h2{
+    margin-left:300px;
+    margin-top: 150px;
+}
+.input{
+    margin-left:440px;
+    border-radius:5px;
+    width: 400px;
+    border: solid #343a40;
+
+}
+.btn-primary{
+    margin: 20px;
+    width: 150px;
+}

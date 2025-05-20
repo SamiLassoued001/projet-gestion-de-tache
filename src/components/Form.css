@@ -1,0 +1,96 @@
+/* Styles généraux du formulaire */
+form {
+ max-width: 50%;
+ align-items: center;
+ justify-content: center;
+margin: 0 auto;
+}
+
+/* Style du titre */
+h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Conteneur des champs */
+form div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+/* Labels */
+label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0.5rem;
+ 
+  text-align: center;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Effet au focus des inputs */
+input:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+}
+
+/* Bouton de soumission */
+button {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background: #007bff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+  margin-top: 1rem;
+}
+h2{
+  text-align: center;
+  margin-left: 30px;
+}
+
+/* Effet au survol du bouton */
+button:hover {
+  background: #0056b3;
+}
+
+/* Responsive : mobile */
+@media (max-width: 480px) {
+  form {
+    padding: 1.5rem;
+    margin: 30px auto;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+   
+  }
+
+  input {
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+}
+
