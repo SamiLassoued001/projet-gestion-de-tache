@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import Head from "../components/Head";
 import { useNavigate } from "react-router-dom";
-
 const PageAdmin = () => {
   const [users, setUsers] = useState([]);
   const [open, setOpen] = useState(false);

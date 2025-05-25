@@ -39,7 +39,7 @@ const LoginForm = () => {
 
       localStorage.setItem("token", accessToken);
       localStorage.setItem("user", JSON.stringify(user));
-
+      localStorage.setItem("userId", user._id);
       setMessage(`Bienvenue ${user.name} !`);
 
       if (user.role === "manager") {

@@ -8,7 +8,7 @@ import {
   styled,
   useTheme,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar from "@mui/material/AppBar";
@@ -19,6 +19,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import NotificationBox from "./Notifications";
 
 const drawerWidth = 240;
 
@@ -83,6 +84,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const TopBar = ({ open, handleDrawerOpen, setMode }) => {
   const theme = useTheme();
+  const [isNotifVisible, setIsNotifVisible] = useState(false);
   return (
     <AppBar
       position="fixed"
@@ -116,7 +118,7 @@ export const TopBar = ({ open, handleDrawerOpen, setMode }) => {
         <Box flexGrow={1} />
 
         <Stack direction={"row"}>
-          {theme.palette.mode === "light" ? (
+          {/* {theme.palette.mode === "light" ? (
             <IconButton
               onClick={() => {
                 localStorage.setItem(
@@ -146,12 +148,27 @@ export const TopBar = ({ open, handleDrawerOpen, setMode }) => {
             >
               <DarkModeOutlinedIcon />
             </IconButton>
-          )}
+          )} */}
 
-          <IconButton color="inherit">
-            <NotificationsOutlinedIcon />
+          <IconButton
+            onClick={() => setIsNotifVisible(!isNotifVisible)}
+            color="inherit"
+          >
+            <div>
+              <NotificationsOutlinedIcon />
+              <div
+                style={{
+                  backgroundColor: "red",
+                  position: "absolute",
+                  height: 10,
+                  width: 10,
+                  borderRadius: 100,
+                  top: 13,
+                }}
+              />
+            </div>
           </IconButton>
-
+          {isNotifVisible && <NotificationBox />}
           {/* <IconButton color="inherit">
             <SettingsOutlinedIcon />
           </IconButton> */}

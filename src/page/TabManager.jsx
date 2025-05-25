@@ -5,7 +5,6 @@ import { Box, Button } from "@mui/material";
 import Head from "../components/Head";
 import { useNavigate } from "react-router-dom"; // ✅ Import
 import AppLayout from "../components/AppLayout";
-
 const TabManager = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate(); // ✅ Hook navigation

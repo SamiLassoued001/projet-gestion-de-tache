@@ -3,7 +3,7 @@ import { MDBCarousel, MDBCarouselItem } from 'mdb-react-ui-kit';
 export default function Carroussel() {
   return (
     <MDBCarousel showControls style={{width:"80%",paddingLeft:"300px"}}>
-      <h1 style={{paddingTop:"30px"}}>Create rules and commands to automate</h1>
+      <h1 style={{paddingTop:"30px"}}>Créez des règles et des commandes pour automatiser</h1>
       <MDBCarouselItem itemId={1}>
         <img style={{height:"300px"}} src='https://images.ctfassets.net/rz1oowkt5gyp/Wn1UM6FwcYkNYZHPzFDkX/11e151e55b277e5690c5b1742cd486a0/Illo-Flowchart.svg' className='d-block w-100' alt='...' />
       </MDBCarouselItem>

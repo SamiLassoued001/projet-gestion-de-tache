@@ -27,7 +27,7 @@ const AppLayout = ({ children, setMode }) => {
   const [open, setOpen] = useState(true);
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box  >
       <CssBaseline />
       <TopBar open={open} handleDrawerOpen={() => setOpen(true)} setMode={setMode} />
       <SideBar open={open} handleDrawerClose={() => setOpen(false)} />

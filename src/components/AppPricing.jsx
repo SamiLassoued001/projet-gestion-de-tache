@@ -52,9 +52,7 @@ function AppPricing() {
             price={selectMonthly ? "499$" : "399$"}
             storage="2 TB Storage"
             users="300"
-            sendUp="Exécution illimitée de règles d'automatisation
-
-"
+            sendUp="Exécution illimitée de règles d'automatisation "
 
           />
         </div>

@@ -1,17 +1,17 @@
 import { Navigate } from "react-router-dom";
 
-const RequireAdminAuth = ({ children }) => {
+const RequireUserAuth = ({ children }) => {
   const auth = localStorage.getItem("auth");
 
   if (!auth) return <Navigate to="/" />;
 
   const { user, isAuthenticated } = JSON.parse(auth);
 
-  if (!isAuthenticated || user.role !== "admin") {
+  if (!isAuthenticated || user.role !== "user") {
     return <Navigate to="/" />;
   }
 
   return children;
 };
 
-export default RequireAdminAuth;
+export default RequireUserAuth;

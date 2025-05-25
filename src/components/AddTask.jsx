@@ -1,4 +1,16 @@
 import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Fab,
+  Stack,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+
 const AddTask = ({ socket }) => {
   const [showModal, setShowModal] = useState(false);
   const [taskData, setTaskData] = useState({
@@ -15,14 +27,11 @@ const AddTask = ({ socket }) => {
     }));
   }, []);
 
-  const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
   const handleChange = (e) => {
     setTaskData({ ...taskData, [e.target.name]: e.target.value });
   };
 
-  const handleAddTodo = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!taskData.title.trim() || !taskData.content.trim()) {
@@ -32,7 +41,7 @@ const AddTask = ({ socket }) => {
 
     try {
       if (socket) {
-        socket.emit("createTask", taskData); // ✅ Utilise WebSocket au lieu d'Axios
+        socket.emit("createTask", taskData);
       }
 
       setTaskData({
@@ -49,32 +58,62 @@ const AddTask = ({ socket }) => {
   };
 
   return (
-    <div>
-      <button className="addTodoBtn" onClick={handleOpenModal}>+ Ajouter</button>
+    <>
+      <Fab
+        color="primary"
+        aria-label="add"
+        onClick={() => setShowModal(true)}
+        style={{ position: "fixed", bottom: 30, right: 30 }}
+      >
+        <AddIcon />
+      </Fab>
 
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Nouvelle Tâche</h2>
-            <form onSubmit={handleAddTodo}>
-              <label>Titre:</label>
-              <input type="text" name="title" value={taskData.title} onChange={handleChange} required />
-
-              <label>Contenu:</label>
-              <textarea name="content" value={taskData.content} onChange={handleChange} required></textarea>
-
-              <label>Date de création:</label>
-              <input type="date" name="date" value={taskData.date} onChange={handleChange} required />
-
-              <div className="modal-buttons">
-                <button type="submit" className="submit-btn">Ajouter</button>
-                <button type="button" className="cancel-btn" onClick={handleCloseModal}>Annuler</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+      <Dialog open={showModal} onClose={() => setShowModal(false)} maxWidth="sm" fullWidth>
+        <form onSubmit={handleSubmit}>
+          <DialogTitle>Nouvelle Tâche</DialogTitle>
+          <DialogContent>
+            <Stack spacing={2}>
+              <TextField
+                label="Titre"
+                name="title"
+                value={taskData.title}
+                onChange={handleChange}
+                required
+                fullWidth
+              />
+              <TextField
+                label="Contenu"
+                name="content"
+                value={taskData.content}
+                onChange={handleChange}
+                multiline
+                rows={4}
+                required
+                fullWidth
+              />
+              <TextField
+                label="Date"
+                name="date"
+                type="date"
+                value={taskData.date}
+                onChange={handleChange}
+                InputLabelProps={{ shrink: true }}
+                required
+                fullWidth
+              />
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowModal(false)} color="secondary">
+              Annuler
+            </Button>
+            <Button type="submit" variant="contained" color="primary">
+              Ajouter
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
   );
 };
 

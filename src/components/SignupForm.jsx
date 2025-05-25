@@ -46,7 +46,7 @@ const SignupForm = () => {
       if (res.data.user) {
         localStorage.setItem("user", JSON.stringify(res.data.user));
       }
-
+       
       // Redirection selon le rôle
       if (formData.role === "manager") {
         navigate("/manager");

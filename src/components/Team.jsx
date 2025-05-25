@@ -9,7 +9,6 @@ import {
 } from "@mui/icons-material";
 import Head from "../components/Head";
 import AppLayout from "../components/AppLayout";
-import RequireAdminAuth from "../components/RequireAdminAuth";
 
 const Team = () => {
   const [users, setUsers] = useState([]);
@@ -75,7 +74,7 @@ const Team = () => {
   ];
 
   return (
-    <RequireAdminAuth>
+      
     <AppLayout>
 
 
@@ -95,7 +94,6 @@ const Team = () => {
       </Box>
     </Box>
     </AppLayout>
-    </RequireAdminAuth>
 
   );
 };

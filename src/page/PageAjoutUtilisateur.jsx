@@ -11,7 +11,6 @@ import {
 import axios from "axios";
 import AppLayout from "../components/AppLayout";
 import Head from "../components/Head";
-import RequireAdminAuth from "../components/RequireAdminAuth";
 
 const roles = [
   { value: "user", label: "Utilisateur" },
@@ -68,7 +67,7 @@ const PageAjoutUtilisateur = () => {
   };
 
   return (
-    <RequireAdminAuth>
+    
     <AppLayout>
        
 
@@ -138,7 +137,7 @@ const PageAjoutUtilisateur = () => {
           </Alert>
         </Snackbar>
       </Box>
-    </AppLayout>    </RequireAdminAuth>
+    </AppLayout>    
 
   );
 };

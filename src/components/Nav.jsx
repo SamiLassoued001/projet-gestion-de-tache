@@ -1,11 +1,16 @@
+// components/Nav.jsx
+import { AppBar, Toolbar, Typography } from "@mui/material";
 
-
-const Nav = () => {
+const Nav = ({ title = "Kanban Board" }) => {
   return (
-    <nav>
-      <h3>kanban board</h3>
-    </nav>
-  )
-}
+    <AppBar position="static" sx={{ mb: 2 }}>
+      <Toolbar>
+        <Typography variant="h6" component="div">
+          {title}
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-export default Nav
+export default Nav;

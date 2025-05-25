@@ -1,4 +1,13 @@
 import { useState, useEffect } from "react";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  Button,
+  Stack,
+} from "@mui/material";
 import axios from "axios";
 
 const UpdatedTask = ({ editTaskData, setEditTaskData, setTasks, socket }) => {
@@ -13,12 +22,16 @@ const UpdatedTask = ({ editTaskData, setEditTaskData, setTasks, socket }) => {
       setFormData({
         title: editTaskData.title || "",
         content: editTaskData.content || "",
-        date: editTaskData.date?.slice(0, 10) || "", // format YYYY-MM-DD
+        date: editTaskData.date?.slice(0, 10) || "",
       });
     }
   }, [editTaskData]);
 
   if (!editTaskData) return null;
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,16 +39,10 @@ const UpdatedTask = ({ editTaskData, setEditTaskData, setTasks, socket }) => {
     const { category, _id } = editTaskData;
 
     try {
-      // Appel backend (PUT)
-      const response = await axios.put(`http://localhost:5000/task/tasks/${_id}`, {
-        title: formData.title,
-        content: formData.content,
-        date: formData.date,
-      });
+      const response = await axios.put(`http://localhost:5000/task/tasks/${_id}`, formData);
 
       const updatedTask = response.data;
 
-      // Mise à jour locale
       setTasks((prev) => {
         const updated = { ...prev };
         const index = updated[category].items.findIndex((task) => task._id === _id);
@@ -45,57 +52,64 @@ const UpdatedTask = ({ editTaskData, setEditTaskData, setTasks, socket }) => {
         return updated;
       });
 
-      // Notification en temps réel
       socket.emit("editTask", {
         category,
         taskId: _id,
-        newTitle: formData.title,
-        newContent: formData.content,
-        newDate: formData.date,
+        ...formData,
       });
 
-      setEditTaskData(null); // Fermer le formulaire
-
+      setEditTaskData(null);
     } catch (error) {
       console.error("❌ Erreur lors de la mise à jour :", error);
     }
   };
 
   return (
-    <div className="modal">
-      <div className="modal-content">
-        <h2>Modifier la tâche</h2>
-        <form onSubmit={handleSubmit}>
-          <label>Titre:</label>
-          <input
-            type="text"
-            value={formData.title}
-            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-            required
-          />
-
-          <label>Contenu:</label>
-          <textarea
-            value={formData.content}
-            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-            required
-          />
-
-          <label>Date:</label>
-          <input
-            type="date"
-            value={formData.date}
-            onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-            required
-          />
-
-          <div className="modal-buttons">
-            <button type="submit" className="submit-btn">Enregistrer</button>
-            <button type="button" className="cancel-btn" onClick={() => setEditTaskData(null)}>Annuler</button>
-          </div>
-        </form>
-      </div>
-    </div>
+    <Dialog open={!!editTaskData} onClose={() => setEditTaskData(null)} maxWidth="sm" fullWidth>
+      <DialogTitle>Modifier la tâche</DialogTitle>
+      <form onSubmit={handleSubmit}>
+        <DialogContent>
+          <Stack spacing={2}>
+            <TextField
+              label="Titre"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              fullWidth
+            />
+            <TextField
+              label="Contenu"
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              multiline
+              rows={4}
+              required
+              fullWidth
+            />
+            <TextField
+              label="Date"
+              name="date"
+              type="date"
+              value={formData.date}
+              onChange={handleChange}
+              InputLabelProps={{ shrink: true }}
+              required
+              fullWidth
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditTaskData(null)} color="secondary">
+            Annuler
+          </Button>
+          <Button type="submit" variant="contained" color="primary">
+            Enregistrer
+          </Button>
+        </DialogActions>
+      </form>
+    </Dialog>
   );
 };
 

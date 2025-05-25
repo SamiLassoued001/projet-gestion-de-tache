@@ -36,9 +36,11 @@ import TabUser from "./page/TabUser";
 import TachesTraitees from "./page/TachesTraitees";
 import PageAjoutUtilisateur from "./page/PageAjoutUtilisateur";
 import HomeReception from "./page/HomeReception";
-
+import RequireAdminAuth from "./components/RequireAdminAuth";
 import { Bar } from "@nivo/bar";
 import AppLayout from "./components/AppLayout";
+import TaskAssignSelect from "./components/TaskAssignSelect";
+
 
 function App() {
   return (
@@ -53,7 +55,8 @@ function App() {
       <Route path="/Bar" element={<Bar/>} />
       <Route path="/Barchart" element={<BarChart/>} />
       <Route path="/HomeReception" element={<HomeReception/>} />
-      
+      <Route path="/a" element={<RequireAdminAuth/>} />
+
 
 
       <Route path="/forgot" element={<ForgotPassword/>} />
@@ -67,6 +70,7 @@ function App() {
       <Route path="/TabManager" element={<TabManager/>} />
       <Route path="/user" element={<TabUser/>} />
       <Route path="/TachesTraitees" element={<TachesTraitees/>} />
+      <Route path="TaskAssignSelect" element={<TaskAssignSelect/>} />
 
 
 
