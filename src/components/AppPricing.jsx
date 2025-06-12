@@ -2,14 +2,12 @@ import { useState } from "react";
 import PricingCard from "./PricingCard"
 import "../styles/PricingApp.css";
 import Footer from "./Footer";
-import Header from "./Header";
 
 function AppPricing() {
   const [selectMonthly,setSelectMonthly] = useState(true);
   console.log(selectMonthly);
   return (
     <>
-    <section><Header/></section>
     <section>
     <div className="PricingApp">
       <div className="app-container">

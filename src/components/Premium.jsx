@@ -8,9 +8,9 @@ function Premium () {
 <Header />
 <section>
 <Standard
-        title1="Deploy faster"
+        title1="Déployez plus rapidement "
         title2="Premium Taskflow"
-        description="Achieve success in every project. Manage tasks with our signature TaskFlow boards—or use timelines, calendars, and more. Gain admin controls for just 250$ per month.."
+        description="Réussissez dans chaque projet. Gérez vos tâches avec nos tableaux TaskFlow, ou utilisez des chronologies, des calendriers et plus encore. Bénéficiez de contrôles administratifs pour seulement 250 $ par mois."
         link="https://images.ctfassets.net/rz1oowkt5gyp/7kXrfJJ98tlBjnZHJXQZvn/87d841e05dd18456f5339373ae98f420/PremiumLP_HeroImage_2x.png?w=1140&fm=webp"
         />
 </section>

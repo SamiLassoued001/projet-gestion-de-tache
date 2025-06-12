@@ -1,5 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+  CircularProgress,
+} from "@mui/material";
 
 const TaskAssignSelect = ({ assignedUserId, onChange }) => {
   const [users, setUsers] = useState([]);
@@ -7,7 +15,13 @@ const TaskAssignSelect = ({ assignedUserId, onChange }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const isManager = user?.role === "manager";
+
   useEffect(() => {
+    if (!isManager) return;
+
     const fetchUsersAndTasks = async () => {
       try {
         setLoading(true);
@@ -15,7 +29,6 @@ const TaskAssignSelect = ({ assignedUserId, onChange }) => {
         const users = usersRes.data;
         setUsers(users);
 
-        // Charger les tâches pour chaque utilisateur
         const tasksPromises = users.map(async (user) => {
           try {
             const tasksRes = await axios.get(`http://localhost:5000/cheftasks/user/${user._id}`);
@@ -43,26 +56,36 @@ const TaskAssignSelect = ({ assignedUserId, onChange }) => {
     };
 
     fetchUsersAndTasks();
-  }, []);
+  }, [isManager]);
 
-  if (loading) return <p>Chargement des utilisateurs...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (!isManager) return null;
+
+  if (loading) return <CircularProgress size={24} />;
+
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <select
-      value={assignedUserId || ""}
-      onChange={(e) => onChange(e.target.value)}
-      name="assignedUser"
-      aria-label="Sélectionner un utilisateur assigné"
-    >
-      <option value="">Aucun assigné</option>
-      {users.map((user) => (
-        <option key={user._id} value={user._id}>
-          {user.name || user.email} ({tasksByUser[user._id]?.length || 0} tâches)
-        </option>
-      ))}
-    </select>
+    <FormControl fullWidth size="small" sx={{ mt: 1 }}>
+      <InputLabel id="assigned-user-label">Assigné à</InputLabel>
+      <Select
+        labelId="assigned-user-label"
+        value={assignedUserId || ""}
+        label="Assigné à"
+        onChange={(e) => onChange(e.target.value)}
+      >
+        <MenuItem value="">
+          <em>Non assigné</em>
+        </MenuItem>
+        {users.map((user) => (
+          <MenuItem key={user._id} value={user._id}>
+            {user.name || user.email} ({tasksByUser[user._id]?.length || 0} tâche(s))
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 
 export default TaskAssignSelect;
+
+

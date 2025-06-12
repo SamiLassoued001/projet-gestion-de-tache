@@ -26,9 +26,9 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import PageAdmin from "./page/PageAdmin";
 // import PageUser from "./page/PageUser";
-import PageManager  from "./page/PageManager";
+import PageManager from "./page/PageManager";
 
- import PlannerMeeting from './components/PlannerMeeting'
+import PlannerMeeting from "./components/PlannerMeeting";
 import Team from "./components/Team";
 import Dashboards from "./page/Dashboards";
 import TabManager from "./page/TabManager";
@@ -40,51 +40,59 @@ import RequireAdminAuth from "./components/RequireAdminAuth";
 import { Bar } from "@nivo/bar";
 import AppLayout from "./components/AppLayout";
 import TaskAssignSelect from "./components/TaskAssignSelect";
-
+import AffichMeeting from "./components/AffichMeeting";
+import CreateTaskForm from "./components/CreateTaskForm";
+import Dash from "./page/Dash";
+import DashLine from "./page/DashLine";
+import Lines from "./page/Lines";
 
 function App() {
   return (
     <>
-    
       {/* Header commun à toutes les pages */}
       {/* <Header /> */}
       <Routes>
-      <Route path="/team" element={<Team/>} />
-      <Route path="/calendar" element={<Calendar/>} />
-      <Route path="/PageAjoutUtilisateur" element={<PageAjoutUtilisateur/>} />
-      <Route path="/Bar" element={<Bar/>} />
-      <Route path="/Barchart" element={<BarChart/>} />
-      <Route path="/HomeReception" element={<HomeReception/>} />
-      <Route path="/a" element={<RequireAdminAuth/>} />
+        <Route path="/manager/create-task" element={<CreateTaskForm />} />
+        <Route path="/Dash" element={<Dash />} />
+        <Route path="/DashLine" element={<DashLine />} />
+        <Route path="/lines" element={<Lines />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/calendar" element={<Calendar />} />
+        <Route
+          path="/PageAjoutUtilisateur"
+          element={<PageAjoutUtilisateur />}
+        />
+        <Route path="/Bar" element={<Bar />} />
+        <Route path="/Barchart" element={<BarChart />} />
+        <Route path="/HomeReception" element={<HomeReception />} />
+        <Route path="/a" element={<RequireAdminAuth />} />
 
+        <Route path="/PrintMeeting" element={<AffichMeeting />} />
+        <Route path="/forgot" element={<ForgotPassword />} />
+        <Route path="/AppLayout" element={<AppLayout />} />
 
+        <Route path="/reset/:token" element={<ResetPassword />} />
+        <Route path="/admin" element={<PageAdmin />} />
+        {/* <Route path="/user" element={<PageUser/>} /> */}
+        <Route path="/manager" element={<PageManager />} />
+        <Route path="/TabManager" element={<TabManager />} />
+        <Route path="/user" element={<TabUser />} />
+        <Route path="/TachesTraitees" element={<TachesTraitees />} />
+        <Route path="TaskAssignSelect" element={<TaskAssignSelect />} />
 
-      <Route path="/forgot" element={<ForgotPassword/>} />
-      <Route path="/AppLayout" element={<AppLayout/>} />
+        <Route path="PlannerMeeting" element={<PlannerMeeting />} />
 
+        <Route path="/comments/:category/:id" element={<Comments />} />
+        <Route path="/AddTask/" element={<AddTask />} />
+        <Route path="/UpdatedTask/:category/:id" element={<UpdatedTask />} />
 
-      <Route path="/reset/:token" element={<ResetPassword/>} />
-      <Route path="/admin" element={<PageAdmin/>} />
-      {/* <Route path="/user" element={<PageUser/>} /> */}
-      <Route path="/manager" element={<PageManager/>} />
-      <Route path="/TabManager" element={<TabManager/>} />
-      <Route path="/user" element={<TabUser/>} />
-      <Route path="/TachesTraitees" element={<TachesTraitees/>} />
-      <Route path="TaskAssignSelect" element={<TaskAssignSelect/>} />
-
-
-
-
-      <Route path="PlannerMeeting" element={<PlannerMeeting/>} />
-
-      <Route path="/comments/:category/:id" element={<Comments />} />
-      <Route path="/AddTask/" element={<AddTask />} />
-      <Route path="/UpdatedTask/:category/:id" element={<UpdatedTask />} />
-
-      <Route path="/task" element={<Task />} />
+        <Route path="/task" element={<Task />} />
         <Route path="/kanban" element={<Kanban />} />
         <Route path="/Views" element={<Views />} />
-        <Route path="/EquipementsMarketing" element={<EquipementsMarketing />} />
+        <Route
+          path="/EquipementsMarketing"
+          element={<EquipementsMarketing />}
+        />
         <Route path="/StartUps" element={<StartUps />} />
         <Route path="/GestiondeProduit" element={<GestiondeProduit />} />
         <Route path="/" element={<Home />} />

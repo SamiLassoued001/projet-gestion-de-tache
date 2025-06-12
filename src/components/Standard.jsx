@@ -21,7 +21,7 @@ export default function Standard(props) {
           {props.description}
           </p>
           <div className="d-flex" >
-            <Button variant="primary" as={Link} to={"/SignupForm"}style={{marginLeft:"1px"}}> Sign Up</Button>
+            <Button variant="primary" as={Link} to={"/Signup"}style={{marginLeft:"1px"}}> Sign Up</Button>
           </div>
           
 

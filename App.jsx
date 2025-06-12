@@ -39,6 +39,7 @@ import HomeReception from "./page/HomeReception";
 
 import { Bar } from "@nivo/bar";
 import AppLayout from "./components/AppLayout";
+import CreateTaskForm from "./src/components/CreateTaskForm";
 
 function App() {
   return (
@@ -68,6 +69,7 @@ function App() {
       <Route path="/user" element={<TabUser/>} />
       <Route path="/TachesTraitees" element={<TachesTraitees/>} />
 
+    <Route path="/manager/create-task/:userId" element={<CreateTaskForm />} />
 
 
 

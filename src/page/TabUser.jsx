@@ -1,21 +1,32 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import AppLayout from "../components/AppLayout";
-import { Box, Typography } from "@mui/material";
 import Head from "../components/Head";
+import {
+  Box,
+  Typography,
+  CircularProgress,
+  Alert,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+} from "@mui/material";
 
 const TaskDetail = () => {
-  const [tasks, setTasks] = useState([]);  // tableau de tâches
+  const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const user = JSON.parse(localStorage.getItem("user"));
 
   const fetchTasks = async () => {
     try {
-      
       const res = await axios.get(`http://localhost:5000/task/user/${user?._id}`);
-      console.log("API Response:", res.data.data); // debug
-      setTasks(res.data.data); // ici on stocke le tableau complet
+      setTasks(res.data.data);
     } catch (err) {
       console.error("API Error:", err);
       setError("Erreur lors de la récupération des tâches.");
@@ -28,15 +39,31 @@ const TaskDetail = () => {
     fetchTasks();
   }, []);
 
- 
+  if (loading) {
+    return (
+      <AppLayout>
+        <Box sx={{ p: 4, display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      </AppLayout>
+    );
+  }
 
- 
+  if (error) {
+    return (
+      <AppLayout>
+        <Box sx={{ p: 4 }}>
+          <Alert severity="error">{error}</Alert>
+        </Box>
+      </AppLayout>
+    );
+  }
 
   if (tasks.length === 0) {
     return (
       <AppLayout>
-        <Box sx={{ p: 3 }}>
-          <Typography>Aucune tâche trouvée.</Typography>
+        <Box sx={{ p: 4 }}>
+          <Alert severity="info">Aucune tâche trouvée.</Alert>
         </Box>
       </AppLayout>
     );
@@ -44,31 +71,64 @@ const TaskDetail = () => {
 
   return (
     <AppLayout>
-      {tasks.map((task) => (
-        <Box key={task._id} sx={{ p: 3, mb: 2, border: "1px solid #ccc", borderRadius: 2 }}>
-          <Head title={`Détails de la tâche : ${task.title}`} />
-          <Typography variant="h5" gutterBottom>{task.title}</Typography>
-          <Typography><strong>Description :</strong> {task.content}</Typography>
-          <Typography><strong>Date :</strong> {new Date(task.date).toLocaleDateString()}</Typography>
-          <Typography><strong>Statut :</strong> {task.status}</Typography>
-          <Typography>
-            <strong>Assignée à :</strong> {task.assignedUser?.name || "Non assignée"}
-          </Typography>
+      <Box sx={{ p: 4 }}>
+        <Head title="Mes Tâches" />
+       
 
-          {task.comments && task.comments.length > 0 && (
-            <Box mt={2}>
-              <Typography variant="h6">Commentaires :</Typography>
-              <ul>
-                {task.comments.map((comment, index) => (
-                  <li key={index}>
-                    <Typography>{comment}</Typography>
-                  </li>
-                ))}
-              </ul>
-            </Box>
-          )}
-        </Box>
-      ))}
+        <TableContainer component={Paper} sx={{ mt: 3 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell><strong>Titre</strong></TableCell>
+                <TableCell><strong>Description</strong></TableCell>
+                <TableCell><strong>Date</strong></TableCell>
+                <TableCell><strong>Statut</strong></TableCell>
+                <TableCell><strong>Assignée à</strong></TableCell>
+                <TableCell><strong>Commentaires</strong></TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {tasks.map((task) => (
+                <TableRow key={task._id}>
+                  <TableCell>{task.title}</TableCell>
+                  <TableCell>{task.content}</TableCell>
+                  <TableCell>{new Date(task.date).toLocaleDateString("fr-FR")}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={task.status}
+                      color={
+                        task.status === "terminé"
+                          ? "success"
+                          : task.status === "en cours"
+                          ? "warning"
+                          : "default"
+                      }
+                      variant="outlined"
+                      size="small"
+                    />
+                  </TableCell>
+                  <TableCell>{task.assignedUser?.name || "Non assignée"}</TableCell>
+                  <TableCell>
+                    {task.comments?.length > 0 ? (
+                      <ul style={{ margin: 0, paddingLeft: 15 }}>
+                        {task.comments.map((comment, index) => (
+                          <li key={index}>
+                            <Typography variant="caption">
+                              <strong>{comment.name} :</strong> {comment.text}
+                            </Typography>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <Typography variant="caption">Aucun</Typography>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </AppLayout>
   );
 };

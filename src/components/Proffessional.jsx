@@ -35,8 +35,8 @@ function Proffessional(props){
     </section>
     <section>
   <Heroes
-  title="TaskFlow powers team collaboration"
-  description=" Where companies do their best work: easy to use, easy to manage, and full of powerful integrations and automations.."
+  title="TaskFlow renforce la collaboration en équipe"
+  description="Là où les entreprises font leur meilleur travail : facile à utiliser, facile à gérer et plein d'intégrations et d'automatisations puissantes. "
   link="https://images.ctfassets.net/rz1oowkt5gyp/6QyHQvDLkY0cyFCSR5rKNO/a319830d6f23cfc890ddd7a3a935f7ee/Scale_trello_image.png?w=1140&fm=webp"
   />
   </section>

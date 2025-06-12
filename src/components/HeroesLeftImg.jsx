@@ -30,7 +30,7 @@ export default function HeroesLeftImg(props) {
           {props.description}
           </p>
           <div className="d-flex" >
-            <Button variant="primary" style={{marginLeft:"1px"}} as={Link} to={"/SignupForm"}> Démarrer</Button>
+            <Button variant="primary" style={{marginLeft:"1px"}} as={Link} to={"/Signup"}> Démarrer</Button>
           </div>
           
 

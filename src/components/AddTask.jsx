@@ -10,6 +10,7 @@ import {
   Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import axios from "axios";
 
 const AddTask = ({ socket }) => {
   const [showModal, setShowModal] = useState(false);
@@ -17,8 +18,11 @@ const AddTask = ({ socket }) => {
     title: "",
     content: "",
     date: "",
-    status: "pending",
+    status: "todo",
+    category: "todo",
   });
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     setTaskData((prev) => ({
@@ -39,21 +43,47 @@ const AddTask = ({ socket }) => {
       return;
     }
 
-    try {
-      if (socket) {
-        socket.emit("createTask", taskData);
-      }
+    if (!user || !user._id) {
+      alert("Utilisateur non authentifié");
+      return;
+    }
 
+    const payload = {
+      ...taskData,
+      assignedUser: user._id,
+      category: "todo",
+      status: "pending",
+    };
+
+    try {
+      // 1. Créer la tâche
+      const response = await axios.post("http://localhost:5000/task", payload);
+      console.log("✅ Tâche créée:", response.data);
+
+      // 2. Émettre via socket
+      if (socket) socket.emit("createTask", response.data);
+
+      // 3. Envoyer une notification
+      const notificationRes = await axios.post("http://localhost:5000/api/send", {
+        userId: user._id,
+        message: `📌 Nouvelle tâche ajoutée : ${taskData.title}`,
+        link: "/Task",
+      });
+
+      console.log("📨 Notification envoyée:", notificationRes.data);
+
+      // 4. Réinitialiser le formulaire
       setTaskData({
         title: "",
         content: "",
         date: new Date().toISOString().slice(0, 10),
         status: "pending",
+        category: "todo",
       });
-
       setShowModal(false);
     } catch (error) {
-      console.error("❌ Erreur lors de l'ajout :", error);
+      console.error("❌ Erreur:", error.response?.data || error.message);
+      alert("Erreur lors de l'ajout de la tâche ou de l'envoi de la notification.");
     }
   };
 

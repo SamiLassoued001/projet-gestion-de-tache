@@ -1,5 +1,6 @@
 // IMPORTS (inchangés)
 import React from "react";
+import DashLine from "../page/DashLine";
 import {
   List,
   Divider,
@@ -28,6 +29,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "@mui/icons-material";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MuiDrawer from "@mui/material/Drawer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
@@ -58,9 +60,9 @@ const closedMixin = (theme) => ({
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
-// @ts-ignore
-})(function({ theme, open }) {
-  return ({
+  // @ts-ignore
+})(function ({ theme, open }) {
+  return {
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: "nowrap",
@@ -73,7 +75,7 @@ const Drawer = styled(MuiDrawer, {
       ...closedMixin(theme),
       "& .MuiDrawer-paper": closedMixin(theme),
     }),
-  });
+  };
 });
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -92,16 +94,19 @@ const Array1 = [
 ];
 
 const Array2 = [
-  { text: "Créer un Profil", icon: <PersonOutlined />, path: "/PageAjoutUtilisateur" },
-  { text: "Calendrier", icon: <CalendarTodayOutlined />, path: "/PlannerMeeting" },
-  { text: "FAQ Page", icon: <HelpOutlineOutlined />, path: "/faq" },
+  {
+    text: "Créer un Profil",
+    icon: <PersonOutlined />,
+    path: "/PageAjoutUtilisateur",
+  },
+  // { text: "Calendrier", icon: <CalendarTodayOutlined />, path: "/PlannerMeeting" },
+  // { text: "FAQ Page", icon: <HelpOutlineOutlined />, path: "/faq" },
 ];
 
 const Array3 = [
-  { text: "Bar Chart", icon: <BarChartOutlined />, path: "/bar" },
-  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/pie" },
-  { text: "Line Chart", icon: <TimelineOutlined />, path: "/line" },
-  { text: "Geography Chart", icon: <MapOutlined />, path: "/geography" },
+  { text: "Répartition des rôles", icon: <BarChartOutlined />, path: "/bar" },
+  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/DashLine" },
+  { text: "Line Chart", icon: <TimelineOutlined />, path: "/lines" },
 ];
 
 const ArrayManager1 = [
@@ -111,15 +116,22 @@ const ArrayManager1 = [
 ];
 
 const ArrayManager2 = [
-  { text: "Suivi des tâches", icon: <PersonOutlined />, path: "/TachesTraitees" },
-  { text: "Calendrier", icon: <CalendarTodayOutlined />, path: "/PlannerMeeting" },
+  {
+    text: "Suivi des tâches",
+    icon: <PersonOutlined />,
+    path: "/TachesTraitees",
+  },
+  {
+    text: "Calendrier",
+    icon: <CalendarTodayOutlined />,
+    path: "/PlannerMeeting",
+  },
 ];
 
 const ArrayManager3 = [
-  { text: "Bar Chart", icon: <BarChartOutlined />, path: "/bar" },
-  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/pie" },
-  { text: "Line Chart", icon: <TimelineOutlined />, path: "/line" },
-  { text: "Geography Chart", icon: <MapOutlined />, path: "/geography" },
+  { text: "Bar Chart", icon: <BarChartOutlined />, path: "/Dash" },
+  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/DashLine" },
+  { text: "Line Chart", icon: <TimelineOutlined />, path: "/lines" },
 ];
 
 const ArrayUser1 = [
@@ -129,22 +141,24 @@ const ArrayUser1 = [
 ];
 
 const ArrayUser2 = [
-  { text: "Créer un Profil", icon: <PersonOutlined />, path: "/PageAjoutUtilisateur" },
-  { text: "Calendrier", icon: <CalendarTodayOutlined />, path: "/PlannerMeeting" },
-  { text: "FAQ Page", icon: <HelpOutlineOutlined />, path: "/faq" },
+  // { text: "Créer un Profil", icon: <PersonOutlined />, path: "/PageAjoutUtilisateur" },
+  // { text: "Calendrier", icon: <CalendarTodayOutlined />, path: "/PlannerMeeting" },
+  {
+    text: "Liste des réuinion",
+    icon: <CalendarMonthIcon />,
+    path: "/PrintMeeting",
+  },
 ];
 
 const ArrayUser3 = [
-  { text: "Bar Chart", icon: <BarChartOutlined />, path: "/bar" },
-  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/pie" },
-  { text: "Line Chart", icon: <TimelineOutlined />, path: "/line" },
-  { text: "Geography Chart", icon: <MapOutlined />, path: "/geography" },
+  { text: "Bar Chart", icon: <BarChartOutlined />, path: "/Dash" },
+  { text: "Pie Chart", icon: <PieChartOutlineOutlined />, path: "/DashLine" },
+  { text: "Line Chart", icon: <TimelineOutlined />, path: "/lines" },
 ];
 const user = JSON.parse(localStorage.getItem("user"));
 console.log("User info:", user);
 
 // COMPOSANT SIDEBAR
-// eslint-disable-next-line react/prop-types
 const SideBar = ({ open, handleDrawerClose }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -153,22 +167,25 @@ const SideBar = ({ open, handleDrawerClose }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const role = user?.role || "user";
   const name = user?.name || "Utilisateur";
-  const avatarUrl =
-    user?.avatar ||
-    "https://media.allure.com/photos/5a26c1d8753d0c2eea9df033/3:4/w_1262,h_1683,c_limit/mostbeautiful.jpg";
+  const avatarUrl = user?.avatar || "image.png";
 
   let sidebarSections = [];
 
   if (role === "manager") {
-    sidebarSections = [{ items: ArrayManager1},{items: ArrayManager2},{items: ArrayManager3}];
-  } else if (role === "user") {
-    sidebarSections = [{ items: ArrayUser1 },{items: ArrayUser2},{items: ArrayUser3}];
-  } else { (role === "admin")
     sidebarSections = [
-      { items: Array1 },
-      { items: Array2 },
-      { items: Array3 },
+      { items: ArrayManager1 },
+      { items: ArrayManager2 },
+      { items: ArrayManager3 },
     ];
+  } else if (role === "user") {
+    sidebarSections = [
+      { items: ArrayUser1 },
+      { items: ArrayUser2 },
+      { items: ArrayUser3 },
+    ];
+  } else {
+    role === "admin";
+    sidebarSections = [{ items: Array1 }, { items: Array2 }, { items: Array3 }];
   }
 
   return (
@@ -192,7 +209,10 @@ const SideBar = ({ open, handleDrawerClose }) => {
         alt={name}
         src={avatarUrl}
       />
-      <Typography align="center" sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}>
+      <Typography
+        align="center"
+        sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}
+      >
         {name}
       </Typography>
       <Typography
@@ -211,7 +231,11 @@ const SideBar = ({ open, handleDrawerClose }) => {
           <Divider />
           <List>
             {section.items.map((item) => (
-              <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
+              <ListItem
+                key={item.path}
+                disablePadding
+                sx={{ display: "block" }}
+              >
                 <Tooltip title={open ? null : item.text} placement="left">
                   <ListItemButton
                     onClick={() => navigate(item.path)}
@@ -236,7 +260,10 @@ const SideBar = ({ open, handleDrawerClose }) => {
                     >
                       {item.icon}
                     </ListItemIcon>
-                    <ListItemText primary={item.text} sx={{ opacity: open ? 1 : 0 }} />
+                    <ListItemText
+                      primary={item.text}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
                   </ListItemButton>
                 </Tooltip>
               </ListItem>

@@ -1,4 +1,4 @@
-/* Styles pour la section FAQ */
+Styles pour la section FAQ
 .faq-container {
     max-width: 800px;
     margin: 40px auto;
@@ -56,4 +56,6 @@
     overflow: hidden;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.08);
   }
+  
+
   
